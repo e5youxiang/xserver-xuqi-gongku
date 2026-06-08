@@ -22,15 +22,18 @@ jobs:
         with:
           fetch-depth: 0 # 👈 拉取完整历史，避免 Push 失败
       
-      - name: 📥 下载私库脚本
+      # 2. 跨仓库检出私有仓库 (为了获取 main.py)
+      - name: Checkout Private Repo
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner }}/Xserver-renew-private
+          # 【修改 1】：换成你图2中真实的私库名字
+          repository: e5youxiang/xserver-xuqi-siku
+          # 【修改 2】：换成你图1中真实创建的变量名 PAT_TOKEN
           token: ${{ secrets.PAT_TOKEN }}
-          path: private
+          path: private_code
 
       - name: 📂 移动脚本到工作目录
-        run: mv -f private/main.py main.py
+        run: mv -f private_code/main.py main.py
       
       - name: 🐍 设置 Python 环境并启用 pip 缓存
         uses: actions/setup-python@v4
